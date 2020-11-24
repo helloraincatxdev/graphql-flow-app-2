@@ -1,3 +1,4 @@
+const { db } = require('../models/tanks');
 const mytanks = require('../models/tanks');
 
 const resolvers = {
@@ -12,7 +13,21 @@ const resolvers = {
         getTank: async (_, args) => {
             const result = await mytanks.findById(args.id);
             return result;
+        },
+        getTanksByCountry: async (_, args) => {
+            const result = await mytanks.find({ country: args.countryName });
+            console.log(args.countryName)
+            return {
+                countryName: args.countryName,
+                tanks: result
+            }
         }
     }
 }
 module.exports = resolvers;
+
+// {_id, _countryId: '1',country: '', name: '', fullname: '', servedYear: '', type: '' }
+
+// db.mytanks.insertMany([
+//     { _countryId: 0, country }
+// ])
